@@ -1,15 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  Alert,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import {View,Text,TextInput,StyleSheet,Alert,FlatList,TouchableOpacity,ScrollView} from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import * as Notifications from 'expo-notifications';
 import { MedicationContext } from './context/MedicationContext';
@@ -122,7 +112,7 @@ export default function Medication() {
       for (const time of reminderTimes) {
         await scheduleNotification(name, currentDate.toISOString().split('T')[0], time);
       }
-      currentDate.setDate(currentDate.getDate() + 1); // 다음 날로 이동
+      currentDate.setDate(currentDate.getDate() + 1); 
     }
 
     Alert.alert('약이 추가되고 알림이 설정되었습니다!');
@@ -133,63 +123,85 @@ export default function Medication() {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
-  <View style={styles.container}>
-    <Text style={styles.title}>새로운 약 추가</Text>
-    <TextInput
-      style={styles.input}
-      placeholder="약 이름 입력"
-      value={name}
-      onChangeText={setName}
-    />
-    <Text style={styles.subTitle}>복용 기간 선택</Text>
-    <Calendar
-      markedDates={{
-        ...(selectedDates.start && { [selectedDates.start]: { selected: true, selectedColor: 'blue' } }),
-        ...(selectedDates.end && { [selectedDates.end]: { selected: true, selectedColor: 'blue' } }),
-      }}
-      onDayPress={handleDayPress}
-    />
-    {selectedDates.start && selectedDates.end && (
-      <Text style={styles.periodText}>
-        복용 기간: {selectedDates.start} ~ {selectedDates.end}
-      </Text>
-    )}
-    <Text style={styles.subTitle}>복용 시간 추가</Text>
-    <View style={styles.timeInputContainer}>
-      <TextInput
-        style={styles.input}
-        placeholder="예: 08:00"
-        value={currentReminder}
-        onChangeText={setCurrentReminder}
-        keyboardType="numeric"
-      />
-      <Button title="추가" onPress={addReminderTime} />
-    </View>
-    <View>
-      {reminderTimes.map((time, index) => (
-        <View key={`${time}-${index}`} style={styles.timeItem}>
-          <Text>{time}</Text>
-          <TouchableOpacity onPress={() => removeReminderTime(time)}>
-            <Text style={styles.deleteButton}>X</Text>
+      <View style={styles.container}>
+        <Text style={styles.subTitle}>약 이름</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="약 이름 입력"
+          value={name}
+          onChangeText={setName}
+        />
+        <Text style={styles.subTitle}>복용 기간 선택</Text>
+        <Calendar
+          markedDates={{
+            ...(selectedDates.start && { [selectedDates.start]: { selected: true, selectedColor: '#778bdd' } }),
+            ...(selectedDates.end && { [selectedDates.end]: { selected: true, selectedColor: '#778bdd' } }),
+          }}
+          onDayPress={handleDayPress}
+          theme={{arrowColor: '#778bdd'}}
+        />
+        {selectedDates.start && selectedDates.end && (
+          <Text style={styles.periodText}>
+            복용 기간: {selectedDates.start} ~ {selectedDates.end}
+          </Text>
+        )}
+        <Text style={styles.subTitle}>복용 시간 추가</Text>
+        <View style={styles.timeInputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="예: 08:00"
+            value={currentReminder}
+            onChangeText={setCurrentReminder}
+            keyboardType="numeric"
+          />
+          <TouchableOpacity style={styles.addButton} onPress={addReminderTime}>
+            <Text style={styles.addButtonText}>추가</Text>
           </TouchableOpacity>
         </View>
-      ))}
-    </View>
-    <Button title="약 추가" onPress={handleAddMedication} />
-  </View>
-</ScrollView>
-
+        <View>
+          {reminderTimes.map((time, index) => (
+            <View key={`${time}-${index}`} style={styles.timeItem}>
+              <Text>{time}</Text>
+              <TouchableOpacity onPress={() => removeReminderTime(time)}>
+                <Text style={styles.deleteButton}>X</Text>
+              </TouchableOpacity>
+            </View>
+          ))}
+        </View>
+        <TouchableOpacity style={styles.addButton} onPress={handleAddMedication}>
+          <Text style={styles.buttonText}>약 추가</Text>
+        </TouchableOpacity>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   scrollContainer: { flexGrow: 1 },
-  container: { flex: 1, padding: 20 },
-  title: { fontSize: 24, marginBottom: 20, textAlign: 'center' },
-  subTitle: { fontSize: 18, marginBottom: 10 },
+  container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  subTitle: { fontSize: 18, marginBottom: 10, color: 'black' }, 
   input: { borderWidth: 1, borderColor: '#ccc', padding: 10, marginBottom: 20, borderRadius: 5 },
   periodText: { fontSize: 16, color: 'green', marginVertical: 10, textAlign: 'center' },
-  timeInputContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 10 },
+  timeInputContainer: { flexDirection: 'row', alignItems: 'baseline', marginBottom: 10 },
   timeItem: { flexDirection: 'row', justifyContent: 'space-between', padding: 10, borderBottomWidth: 1, borderColor: '#ccc' },
   deleteButton: { color: 'red', fontWeight: 'bold' },
+  addButton: {
+    backgroundColor: '#778bdd', 
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  addButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 });

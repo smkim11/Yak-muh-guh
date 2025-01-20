@@ -6,7 +6,7 @@ export const MedicationContext = createContext();
 export const MedicationProvider = ({ children }) => {
   const [medications, setMedications] = useState([]);
   const [history, setHistory] = useState({});
-  const [notificationsEnabled, setNotificationsEnabled] = useState(true); // 알림 On/Off 상태
+  const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
   // AsyncStorage에서 데이터를 불러오기
   const loadData = async () => {
@@ -15,9 +15,9 @@ export const MedicationProvider = ({ children }) => {
       const storedHistory = await AsyncStorage.getItem('history');
       const storedNotificationsEnabled = await AsyncStorage.getItem('notificationsEnabled');
 
-      if (storedMedications) setMedications(JSON.parse(storedMedications));
-      if (storedHistory) setHistory(JSON.parse(storedHistory));
-      if (storedNotificationsEnabled) setNotificationsEnabled(JSON.parse(storedNotificationsEnabled));
+      setMedications(storedMedications ? JSON.parse(storedMedications) : []);
+      setHistory(storedHistory ? JSON.parse(storedHistory) : {});
+      setNotificationsEnabled(storedNotificationsEnabled ? JSON.parse(storedNotificationsEnabled) : true);
     } catch (error) {
       console.error('Failed to load data:', error);
     }
@@ -37,22 +37,31 @@ export const MedicationProvider = ({ children }) => {
   const addMedication = ({ name, period, reminderTimes }) => {
     if (!reminderTimes || reminderTimes.length === 0) {
       console.error('복용 시간이 설정되지 않았습니다.');
+      return;
     }
     setMedications((prev) => [
       ...prev,
-      { id: Date.now().toString(), name, period, reminderTimes, taken: false, notificationsEnabled: true },
+      { id: Date.now().toString(), name, period, reminderTimes, taken: {}, notificationsEnabled: true },
     ]);
   };
-  
 
   // 복용 상태 토글 함수
-  const toggleMedicationStatus = (id) => {
+  const toggleMedicationStatus = (id, time) => {
     setMedications((prev) =>
       prev.map((med) =>
-        med.id === id ? { ...med, taken: !med.taken } : med
+        med.id === id
+          ? {
+              ...med,
+              takenTimes: {
+                ...med.takenTimes,
+                [time]: !med.takenTimes?.[time], // 특정 시간 복용 상태 토글
+              },
+            }
+          : med
       )
     );
   };
+  
 
   // 알림 On/Off 토글 함수 (약별)
   const toggleMedicationNotification = (id) => {
@@ -71,14 +80,38 @@ export const MedicationProvider = ({ children }) => {
   // 오늘 날짜 복약 상태 기록
   const updateHistoryForToday = () => {
     const today = new Date().toISOString().split('T')[0];
-    const allTaken = medications.every((med) => med.taken); // 모든 약 복용 완료 여부 확인
-    const status = allTaken ? 'O' : 'X'; // O: 성공, X: 실패
-
+  
+    // 복용 완료된 약물의 이름과 시간 추출
+    const takenMedications = medications
+      .filter((med) => med.takenTimes)
+      .flatMap((med) =>
+        Object.keys(med.takenTimes)
+          .filter((time) => med.takenTimes[time]) // 복용 완료된 시간만 필터링
+          .map((time) => ({ name: med.name, time }))
+      );
+  
+    // 새로운 기록 상태
+    const status = takenMedications.length > 0 ? 'O' : 'X';
+  
     setHistory((prev) => ({
       ...prev,
-      [today]: { status },
+      [today]: {
+        status,
+        medications: [...(prev[today]?.medications || []), ...takenMedications], // 이전 기록 유지 및 새로운 기록 추가
+      },
     }));
+  
+    // 복용 상태 초기화
+    setMedications((prev) =>
+      prev.map((med) => ({
+        ...med,
+        taken: false, // 복용 상태 초기화
+        takenTimes: {}, // 복용 시간 초기화
+      }))
+    );
   };
+  
+  
 
   // 알림 활성화/비활성화 상태 토글
   const toggleNotifications = () => {
@@ -99,8 +132,8 @@ export const MedicationProvider = ({ children }) => {
       value={{
         medications,
         history,
-        notificationsEnabled, // 알림 상태
-        toggleNotifications, // 알림 상태 토글 함수
+        notificationsEnabled,
+        toggleNotifications,
         addMedication,
         toggleMedicationStatus,
         toggleMedicationNotification,
