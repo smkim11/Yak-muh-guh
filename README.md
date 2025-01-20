@@ -14,18 +14,18 @@
 - 기록 페이지의 캘린더에서 날짜를 선택 후 복용기록 확인 <br>
 
 <h1>기능 구현 화면</h1>
-<img src="https://github.com/user-attachments/assets/5d8d718b-aac6-478d-ba9c-c6040a69272c" width="30%" height = "30%"/><br>
-- 어플 접속 로딩 페이지<br>
-<img src="https://github.com/user-attachments/assets/5613f865-b956-4275-9423-fdb7791e565e" width="30%" height = "30%"/><br>
-- 약을 추가할 수 있는 추가 페이지<br>
-<img src="https://github.com/user-attachments/assets/067b1a1e-618f-4500-84d3-2313f2713474" width="30%" height = "30%"/><br>
-- 어플의 첫 화면인 목록페이지<br>
-<img src="https://github.com/user-attachments/assets/4202a702-9dab-4666-90cd-6ccd079808ae" width="30%" height = "30%"/><br>
-- '복용 완료' 버튼을 클릭 후 하단에 '복용완료기록' 버튼을 클릭하면 복약기록이 저장된다.<br>
-<img src="https://github.com/user-attachments/assets/b9645a7b-b154-45d6-afba-36cacf4ada6a" width="30%" height = "30%"/><br>
-- 날짜를 선택하여 복약 기록 확인<br>
-<img src="https://github.com/user-attachments/assets/c9b3630e-32fd-47ff-a0e2-ca6337958f28" width="30%" height = "30%"/><br>
-- 지정한 시간이 되면 푸시 알림 <br>
-<img src="https://github.com/user-attachments/assets/6b255968-fcf2-4bdf-80e0-9398da686cad" width="30%" height = "30%"/><br>
-- 어플의 하단에 편리한 페이지간 이동을 위한 탭 네비게이션 <br>
+<img src="https://github.com/user-attachments/assets/5d8d718b-aac6-478d-ba9c-c6040a69272c" width="30%" height = "30%"/><br><br>
+- 어플 접속 로딩 페이지<br><br>
+<img src="https://github.com/user-attachments/assets/5613f865-b956-4275-9423-fdb7791e565e" width="30%" height = "30%"/><br><br>
+- 약을 추가할 수 있는 추가 페이지<br><br>
+<img src="https://github.com/user-attachments/assets/067b1a1e-618f-4500-84d3-2313f2713474" width="30%" height = "30%"/><br><br>
+- 어플의 첫 화면인 목록페이지<br><br>
+<img src="https://github.com/user-attachments/assets/4202a702-9dab-4666-90cd-6ccd079808ae" width="30%" height = "30%"/><br><br>
+- '복용 완료' 버튼을 클릭 후 하단에 '복용완료기록' 버튼을 클릭하면 복약기록이 저장된다.<br><br>
+<img src="https://github.com/user-attachments/assets/b9645a7b-b154-45d6-afba-36cacf4ada6a" width="30%" height = "30%"/><br><br>
+- 날짜를 선택하여 복약 기록 확인<br><br>
+<img src="https://github.com/user-attachments/assets/c9b3630e-32fd-47ff-a0e2-ca6337958f28" width="30%" height = "30%"/><br><br>
+- 지정한 시간이 되면 푸시 알림 <br><br>
+<img src="https://github.com/user-attachments/assets/6b255968-fcf2-4bdf-80e0-9398da686cad" width="30%" height = "30%"/><br><br>
+- 어플의 하단에 편리한 페이지간 이동을 위한 탭 네비게이션 <br><br>
 
