@@ -1,10 +1,5 @@
-<style>
-  img{ width: 50%;
-      height: 50%;
-     }
-</style>
 <h1>복용중인 약 알람 어플 "약먹어"</h1>
-<img src="https://github.com/user-attachments/assets/4eedb719-9bcf-4d45-8a5c-e1a5dc1d1f00"/>
+<img src="https://github.com/user-attachments/assets/4eedb719-9bcf-4d45-8a5c-e1a5dc1d1f00" width="30%" height = "30%"/>
 <h1>개요</h1>
 약먹어 어플은 사용자가 복용 중인 약물의 복용 시간과 주기를 입력하면, 지정된 시간에 알림을 보내 약 복용을 잊지 않도록 도와주는 애플리케이션입니다.<br>
 
